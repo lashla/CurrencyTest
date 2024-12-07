@@ -17,6 +17,8 @@ okHttpVersion = "4.12.0"
 gsonVersion = "2.11.0"
 kspVersion = "2.1.0-1.0.29"
 roomVersion = "2.6.1"
+kotlinSerializableVersion = "2.1.0"
+kotlinSerializableJsonVersion = "1.7.3"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -51,6 +53,7 @@ gson = { group = "com.google.code.gson", name = "gson", version.ref = "gsonVersi
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "roomVersion" }
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomVersion" }
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "roomVersion" }
+serializae = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinSerializableJsonVersion" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
@@ -58,3 +61,4 @@ jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "k
 ksp = { id = "com.google.devtools.ksp", version.ref = "kspVersion" }
 hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hiltVersion" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kotlin-seializable = {id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinSerializableVersion"}

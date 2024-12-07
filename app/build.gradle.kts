@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt.android)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.kotlin.seializable)
 }
 
 android {
@@ -78,4 +79,6 @@ dependencies {
     implementation(libs.okHttp)
     //Gson
     implementation(libs.gson)
+    //Serializable
+    implementation(libs.serializae)
 }
