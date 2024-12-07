@@ -106,7 +106,7 @@ private fun typography(): Typography {
 
         headlineMedium = MaterialTheme.typography.headlineMedium.copy(
             fontFamily = interFontFamily,
-            fontWeight = FontWeight.SemiBold,
+            fontWeight = FontWeight.Bold,
             fontSize = 22.sp,
             lineHeight = 28.sp
         ),
@@ -140,7 +140,7 @@ private fun typography(): Typography {
         ),
         bodyMedium = MaterialTheme.typography.bodyMedium.copy(
             fontFamily = interFontFamily,
-            fontWeight = FontWeight.Bold,
+            fontWeight = FontWeight.Medium,
             fontSize = 16.sp,
             lineHeight = 24.sp
         ),
@@ -180,12 +180,19 @@ private fun typography(): Typography {
             lineHeight = 16.sp
         ),
 
+        labelSmall = MaterialTheme.typography.labelSmall.copy(
+            fontFamily = interFontFamily,
+            fontWeight = FontWeight.Bold,
+            fontSize = 12.sp,
+            lineHeight = 20.sp
+        ),
+
         titleMedium = MaterialTheme.typography.titleMedium.copy(
             fontFamily = interFontFamily,
             fontWeight = FontWeight.Bold,
             fontSize = 14.sp,
             lineHeight = 20.sp
-        ),
+        )
     )
 }
 

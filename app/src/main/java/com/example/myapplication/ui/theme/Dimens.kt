@@ -4,6 +4,7 @@ import androidx.compose.ui.unit.dp
 
 object Dimens {
     val defaultBorderWidth = 1.dp
+    val spacing0_5x = 4.dp
     val spacing1x = 8.dp
     val spacing1_25x = 10.dp
     val spacing1_5x = 12.dp
@@ -11,6 +12,7 @@ object Dimens {
     val spacing2x = 16.dp
     val spacing2_5x = 20.dp
     val spacing3x = 24.dp
+    val spacing5x = 40.dp
     val spacing6x = 48.dp
 }
 

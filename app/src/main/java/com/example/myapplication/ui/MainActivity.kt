@@ -13,9 +13,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.myapplication.ui.navigation.AppNavHost
 import com.example.myapplication.ui.navigation.BottomNavigationBar
+import com.example.myapplication.ui.navigation.Filters
 import com.example.myapplication.ui.theme.AppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -30,17 +32,20 @@ class MainActivity : ComponentActivity() {
                 var selectedItemIndex by rememberSaveable {
                     mutableIntStateOf(0)
                 }
+                val currentRoute = navController.currentBackStackEntryAsState().value?.destination
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
                     Scaffold(
                         bottomBar = {
-                            BottomNavigationBar(
-                                selectedItemIndex = selectedItemIndex,
-                                navController = navController
-                            ) {
-                                selectedItemIndex = it
+                            if (currentRoute != Filters) {
+                                BottomNavigationBar(
+                                    selectedItemIndex = selectedItemIndex,
+                                    navController = navController
+                                ) {
+                                    selectedItemIndex = it
+                                }
                             }
                         }
                     ) { innerPadding ->
