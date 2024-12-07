@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">Currency App</string>
+    <string name="currencies">Currencies</string>
+    <string name="favourites">Favorites</string>
 </resources>
