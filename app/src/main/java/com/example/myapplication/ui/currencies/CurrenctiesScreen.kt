@@ -1,12 +1,8 @@
-@file:Suppress("DEPRECATION")
-
 package com.example.myapplication.ui.currencies
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.BoxWithConstraints
 import com.example.myapplication.R
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -37,32 +33,38 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.myapplication.ui.theme.Dimens
 import com.example.myapplication.ui.theme.Weights
 
-@SuppressLint("UnusedBoxWithConstraintsScope")
 @Composable
-fun CurrenciesScreen(viewModel: CurrenciesViewModel = hiltViewModel<CurrenciesViewModel>()) {
-    val uiState by viewModel.state.collectAsStateWithLifecycle()
-    BoxWithConstraints {
-        Column {
-            TopAppBar(
-                currencyList = uiState.currenciesList,
-                onCurrencySelected = viewModel::onCurrencySelected,
-                selectedCurrency = uiState.selectedCurrency
-            )
-            HorizontalDivider(
-                thickness = Dimens.defaultBorderWidth,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-            LazyColumn(modifier = Modifier.padding(Dimens.spacing2x)) {
-                itemsIndexed(uiState.currenciesRatesMap.toList()) { cardItemIndex, cardItem ->
-                    CurrencyItem(itemTitle = cardItem.first, itemValue = cardItem.second, {})
-                    if (cardItemIndex < uiState.currenciesRatesMap.size - 1) {
-                        Spacer(modifier = Modifier.height(Dimens.spacing1x))
-                    }
+fun CurrenciesScreen(viewModel: CurrenciesViewModel, navigateToFilter: () -> Unit) {
+    val uiState by viewModel.currenciesUiState.collectAsStateWithLifecycle()
+    CurrenciesContent(
+        uiState = uiState,
+        onCurrencySelected = viewModel::onCurrencySelected,
+        navigateToFilter = navigateToFilter
+    )
+}
+
+@Composable
+private fun CurrenciesContent(
+    uiState: CurrenciesScreenState,
+    onCurrencySelected: (Int) -> Unit,
+    navigateToFilter: () -> Unit
+) {
+    Column {
+        TopAppBar(
+            currencyList = uiState.currenciesList,
+            onCurrencySelected = onCurrencySelected,
+            selectedCurrency = uiState.selectedCurrency,
+            navigateToFilter = navigateToFilter
+        )
+        LazyColumn(modifier = Modifier.padding(horizontal = Dimens.spacing2x)) {
+            itemsIndexed(uiState.currenciesRatesMap.toList()) { cardItemIndex, cardItem ->
+                CurrencyItem(itemTitle = cardItem.first, itemValue = cardItem.second, onFavouriteClicked = {})
+                if (cardItemIndex < uiState.currenciesRatesMap.size - 1) {
+                    Spacer(modifier = Modifier.height(Dimens.spacing1x))
                 }
             }
         }
@@ -75,6 +77,7 @@ private fun TopAppBar(
     currencyList: List<String>,
     selectedCurrency: String,
     onCurrencySelected: (index: Int) -> Unit,
+    navigateToFilter: () -> Unit
 ) {
     Surface(
         modifier = Modifier
@@ -104,7 +107,7 @@ private fun TopAppBar(
                 Spacer(modifier = Modifier.width(Dimens.spacing1x))
                 OutlinedIconButton(
                     modifier = Modifier.size(Dimens.spacing6x),
-                    onClick = {},
+                    onClick = navigateToFilter,
                     shape = RoundedCornerShape(Dimens.spacing1x),
                     border = BorderStroke(
                         width = Dimens.defaultBorderWidth,
@@ -119,6 +122,10 @@ private fun TopAppBar(
                 }
             }
             Spacer(modifier = Modifier.height(Dimens.spacing1x))
+            HorizontalDivider(
+                thickness = Dimens.defaultBorderWidth,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
         }
     }
 }

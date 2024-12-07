@@ -1,5 +1,18 @@
 <resources>
     <string name="app_name">Currency App</string>
+    <!-- Screen names -->
     <string name="currencies">Currencies</string>
     <string name="favourites">Favorites</string>
+    <string name="filters">Filters</string>
+
+    <!-- Header for the Sort options -->
+    <string name="sort_by">SORT BY</string>
+
+    <!-- Sorting options -->
+    <string name="sort_code_a_z">Code A-Z</string>
+    <string name="sort_code_z_a">Code Z-A</string>
+    <string name="sort_quote_asc">Quote Asc.</string>
+    <string name="sort_quote_desc">Quote Desc.</string>
+
+    <string name="sort_apply">Apply</string>
 </resources>

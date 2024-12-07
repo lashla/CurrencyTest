@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication.di.BackgroundDispatcher
 import com.example.myapplication.domain.repository.CurrenciesRepository
+import com.example.myapplication.ui.filter.FilterOption
+import com.example.myapplication.ui.filter.FilterScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,15 +22,20 @@ class CurrenciesViewModel @Inject constructor(
     private val sharedPreferences: SharedPreferences,
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(CurrenciesScreenState())
-    val state: StateFlow<CurrenciesScreenState> = _state
+    private val _currenciesUiState = MutableStateFlow(CurrenciesScreenState())
+    val currenciesUiState: StateFlow<CurrenciesScreenState> = _currenciesUiState
+
+    private val _filterUiState = MutableStateFlow(FilterScreenState())
+    val filterUiState: StateFlow<FilterScreenState> = _filterUiState
 
     init {
         viewModelScope.launch(backgroundDispatcher) {
-            _state.update {
+            val currenciesList =
+                currenciesRepository.fetchCurrencies()?.symbols?.keys?.toMutableList()
+                    ?: mutableListOf()
+            _currenciesUiState.update {
                 it.copy(
-                    currenciesList = currenciesRepository.fetchCurrencies()?.symbols?.keys?.toMutableList()
-                        ?: mutableListOf(),
+                    currenciesList = currenciesList,
                     selectedCurrency = sharedPreferences.getString(
                         DEFAULT_CURRENCY_TAG,
                         DEFAULT_CURRENCY
@@ -41,28 +48,59 @@ class CurrenciesViewModel @Inject constructor(
 
     private fun fetchCurrencies() {
         viewModelScope.launch(backgroundDispatcher) {
-            _state.update {
+            val currencyRates = currenciesRepository.fetchCurrencyRates(
+                base = _currenciesUiState.value.selectedCurrency
+            )?.rates?.toList() ?: listOf()
+            _currenciesUiState.update {
                 it.copy(
-                    currenciesRatesMap = currenciesRepository.fetchCurrencyRates(
-                        base = _state.value.selectedCurrency
-                    )?.rates?.toList() ?: listOf()
+                    currenciesRatesMap = currencyRates
                 )
             }
         }
     }
 
     fun onCurrencySelected(index: Int) {
-        if (_state.value.currenciesList.first() != _state.value.currenciesList[index]) {
-            _state.update {
+        if (_currenciesUiState.value.currenciesList.first() != _currenciesUiState.value.currenciesList[index]) {
+            _currenciesUiState.update {
                 it.copy(
                     currenciesList = it.currenciesList.distinct() as MutableList<String>,
                     selectedCurrency = it.currenciesList[index]
                 )
             }
-            _state.value.currenciesList.add(0, _state.value.selectedCurrency)
+            _currenciesUiState.value.currenciesList.add(
+                0,
+                _currenciesUiState.value.selectedCurrency
+            )
             sharedPreferences.edit()
-                .putString(DEFAULT_CURRENCY_TAG, _state.value.currenciesList[index]).apply()
+                .putString(DEFAULT_CURRENCY_TAG, _currenciesUiState.value.currenciesList[index])
+                .apply()
             fetchCurrencies()
+        }
+    }
+
+    fun onFilterChanged(filterOption: FilterOption) {
+        _filterUiState.update {
+            it.copy(selectedFilter = filterOption)
+        }
+    }
+
+    fun onApplyFilter() {
+        sortCurrencies(_filterUiState.value.selectedFilter)
+    }
+
+    private fun sortCurrencies(
+        sortOption: FilterOption
+    ) {
+        val currencies = _currenciesUiState.value.currenciesRatesMap
+        _currenciesUiState.update {
+            it.copy(currenciesRatesMap = when (sortOption) {
+                FilterOption.QuoteDesc -> currencies.toList().sortedByDescending { it.second }
+                FilterOption.QuoteAsc -> currencies.toList().sortedBy { it.second }
+                FilterOption.CodeZA -> currencies.toList().sortedByDescending { it.first }
+                FilterOption.CodeAZ -> currencies.toList().sortedBy { it.first }
+                else -> currencies.toList() // Default: no sorting
+            }
+            )
         }
     }
 
