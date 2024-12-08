@@ -1,4 +1,4 @@
-package com.example.myapplication.ui.currencies
+package com.example.myapplication.ui.theme
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
@@ -30,8 +30,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.window.Popup
 import com.example.myapplication.R
-import com.example.myapplication.ui.theme.Dimens
-import com.example.myapplication.ui.theme.RotationValues
 
 @SuppressLint("UnusedBoxWithConstraintsScope")
 @Composable
@@ -75,7 +73,7 @@ fun CurrencyDropDown(
         }
 
         if (expanded) {
-            val maxPopupHeight = Dimens.spacing6x * 6
+            val maxPopupHeight = MAX_POPUP_HEIGHT
             Popup(
                 alignment = Alignment.TopStart,
                 onDismissRequest = { expanded = false } // Dismiss dropdown when clicked outside
@@ -111,7 +109,7 @@ fun CurrencyDropDown(
                                 horizontalArrangement = Arrangement.SpaceBetween
                             ) {
                                 Text(text = currenciesList[index], style = MaterialTheme.typography.bodySmall)
-                                if (index == 0) {
+                                if (index == INDEX_START) {
                                     Icon(
                                         painter = painterResource(R.drawable.arrow_down),
                                         contentDescription = "Expand/Collapse",
@@ -132,3 +130,6 @@ fun CurrencyDropDown(
         }
     }
 }
+
+private val MAX_POPUP_HEIGHT = Dimens.spacing6x * 6
+private const val INDEX_START = 0
