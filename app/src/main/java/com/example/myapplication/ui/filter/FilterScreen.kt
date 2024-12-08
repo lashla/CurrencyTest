@@ -28,7 +28,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.myapplication.R
-import com.example.myapplication.ui.currencies.CurrenciesViewModel
+import com.example.myapplication.ui.CurrenciesViewModel
 import com.example.myapplication.ui.theme.Dimens
 import com.example.myapplication.ui.theme.FilterRadioButton
 import com.example.myapplication.ui.theme.Weights
@@ -45,7 +45,7 @@ fun FilterScreen(viewModel: CurrenciesViewModel, navigateBack: () -> Unit) {
 }
 
 @Composable
-fun FilterContent(
+private fun FilterContent(
     uiState: FilterScreenState,
     onFilterSelected: (FilterOption) -> Unit,
     onApplyPressed: () -> Unit,
@@ -79,7 +79,7 @@ fun FilterContent(
 }
 
 @Composable
-fun FilterTopAppBar(navigateBack: () -> Unit) {
+private fun FilterTopAppBar(navigateBack: () -> Unit) {
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -101,7 +101,7 @@ fun FilterTopAppBar(navigateBack: () -> Unit) {
                 ) {
                     Icon(
                         painter = painterResource(R.drawable.arrow_back),
-                        contentDescription = "",
+                        contentDescription = "Back button",
                         tint = Color.Unspecified
                     )
                 }
@@ -120,7 +120,7 @@ fun FilterTopAppBar(navigateBack: () -> Unit) {
 }
 
 @Composable
-fun SortOptions(selectedOption: FilterOption, onPotionSelected: (FilterOption) -> Unit) {
+private fun SortOptions(selectedOption: FilterOption, onPotionSelected: (FilterOption) -> Unit) {
 
     Column(modifier = Modifier.padding(Dimens.spacing2x)) {
         Text(
@@ -156,7 +156,7 @@ fun SortOptions(selectedOption: FilterOption, onPotionSelected: (FilterOption) -
 }
 
 @Composable
-fun SortOption(
+private fun SortOption(
     label: String,
     selected: Boolean,
     onClick: () -> Unit
@@ -179,24 +179,24 @@ fun SortOption(
 
 @Preview
 @Composable
-fun FilerHeaderPreview() {
+private fun FilerHeaderPreview() {
     FilterTopAppBar({})
 }
 
 @Preview(backgroundColor = 0xFFFFFFFF)
 @Composable
-fun SortOptionPreview() {
+private fun SortOptionPreview() {
     SortOption(label = "A-Z", false) {}
 }
 
 @Preview(backgroundColor = 0xFFFFFFFF)
 @Composable
-fun SortOptionsPreview() {
+private fun SortOptionsPreview() {
     SortOptions(selectedOption = FilterOption.QuoteAsc, {})
 }
 
 @Preview(backgroundColor = 0xFFFFFFFF)
 @Composable
-fun ScreenContent() {
+private fun ScreenContent() {
     FilterContent(uiState = FilterScreenState(FilterOption.QuoteAsc), {}, {}, {})
 }

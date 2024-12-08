@@ -23,19 +23,19 @@ fun FilterRadioButton(
         contentAlignment = Alignment.Center,
         modifier = modifier
             .size(Dimens.spacing3x)
-            .clip(CircleShape)// Custom size for the radio button
+            .clip(CircleShape)
             .clickable(onClick = onClick)
     ) {
         if (selected) {
             Icon(
                 painter = painterResource(R.drawable.radio_button_active),
-                contentDescription = "Pressed radio button",
+                contentDescription = "Enabled radio button",
                 tint = Color.Unspecified
             )
         } else {
             Icon(
                 painter = painterResource(R.drawable.radio_button_inactive),
-                contentDescription = "Pressed radio button",
+                contentDescription = "Disabled radio button",
                 tint = Color.Unspecified
             )
         }

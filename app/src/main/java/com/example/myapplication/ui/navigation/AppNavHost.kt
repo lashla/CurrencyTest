@@ -11,7 +11,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.createGraph
 import com.example.myapplication.ui.currencies.CurrenciesScreen
-import com.example.myapplication.ui.currencies.CurrenciesViewModel
+import com.example.myapplication.ui.CurrenciesViewModel
+import com.example.myapplication.ui.favourites.FavouritesScreen
 import com.example.myapplication.ui.filter.FilterScreen
 import kotlinx.serialization.Serializable
 
@@ -42,6 +43,10 @@ fun AppNavHost(
                 FilterScreen(hiltViewModel(backStackEntry)) {
                     navController.popBackStack()
                 }
+            }
+            composable<Favourites> {
+                val backStackEntry = navController.getBackStackEntry(Currencies)
+                FavouritesScreen(hiltViewModel(backStackEntry))
             }
         }
     }
