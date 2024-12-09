@@ -81,4 +81,25 @@ dependencies {
     implementation(libs.gson)
     //Serializable
     implementation(libs.serializae)
+    // JUnit for testing
+    testImplementation(libs.junit)
+
+    // AndroidX Test - Core and Rules
+    androidTestImplementation(libs.androidx.test.core)
+    androidTestImplementation(libs.androidx.test.rules)
+
+    // Lifecycle testing utilities (for ViewModel and LiveData testing)
+    testImplementation(libs.lifecycle.core.testing)
+
+    // Coroutine testing
+    testImplementation(libs.coroutines.test)
+
+    // Mockito for mocking
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.inline)
+    testImplementation(libs.kotlin.test)
+    testImplementation(libs.kotlin.reflect)
+
+    // Turbine for testing flows
+    testImplementation(libs.turbine)
 }
